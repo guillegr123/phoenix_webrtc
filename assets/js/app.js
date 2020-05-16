@@ -48,8 +48,26 @@ function setVideoStream(videoElement, stream) {
 
 function unsetVideoStream(videoElement) {
   if (videoElement.srcObject) {
+    // Loop through the tracks and stop them prior to removing them. This just tells the device
+    // that the media is no longer required, instead of waiting for the object to be garbage
+    // collected.
     videoElement.srcObject.getTracks().forEach(track => track.stop())
   }
   videoElement.removeAttribute('src');
   videoElement.removeAttribute('srcObject');
+}
+
+async function connect() {
+  connectButton.disabled = true;
+  disconnectButton.disabled = false;
+  callButton.disabled = false;
+
+  // We're going to call mediaDevices.getUserMedia to get a promise for the media stream object.
+  // This promise will resolve once the user has selected to allow the page access to their device.
+  // If they never click, or if they click to deny, then the promise simply never resolves.
+  const localStream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true,
+  });
+  setVideoStream(localVideo, localStream);
 }
