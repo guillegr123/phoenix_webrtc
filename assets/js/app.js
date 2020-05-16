@@ -35,9 +35,21 @@ callButton.onclick = call;
 disconnectButton.onclick = disconnect;
 
 const reportError = where => error => {
-    console.error(where, error)
+  console.error(where, error)
 }
 
 function log() {
-    console.log(...arguments)
+  console.log(...arguments)
+}
+
+function setVideoStream(videoElement, stream) {
+  videoElement.srcObject = stream;
+}
+
+function unsetVideoStream(videoElement) {
+  if (videoElement.srcObject) {
+    videoElement.srcObject.getTracks().forEach(track => track.stop())
+  }
+  videoElement.removeAttribute('src');
+  videoElement.removeAttribute('srcObject');
 }
