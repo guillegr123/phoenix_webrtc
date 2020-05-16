@@ -117,3 +117,17 @@ function pushPeerMessage(type, content) {
     }),
   });
 }
+
+function handleOnTrack(event) {
+  log(event);
+}
+  
+function handleOnIceCandidate(event) {
+  log(event);
+
+  if (!!event.candidate) {
+    return;
+  }
+
+  pushPeerMessage('ice-candidate', event.candidate);
+}
