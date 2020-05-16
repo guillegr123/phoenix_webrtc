@@ -70,6 +70,7 @@ async function connect() {
     video: true,
   });
   setVideoStream(localVideo, localStream);
+  peerConnection = createPeerConnection(localStream);
 }
 
 function disconnect() {
@@ -80,4 +81,21 @@ function disconnect() {
   unsetVideoStream(remoteVideo);
   remoteStream = new MediaStream();
   setVideoStream(remoteVideo, remoteStream);
+  peerConnection.close();
+  peerConnection = null;
+}
+
+function createPeerConnection(stream) {
+  let pc = new RTCPeerConnection({
+    iceServers: [
+      // Information about ICE servers - Use your own!
+      {
+        urls: 'stun:stun.stunprotocol.org',
+      },
+    ],
+  });
+  pc.ontrack = handleOnTrack;
+  pc.onicecandidate = handleOnIceCandidate;
+  stream.getTracks().forEach(track => pc.addTrack(track));
+  return pc;
 }
