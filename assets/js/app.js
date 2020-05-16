@@ -71,3 +71,13 @@ async function connect() {
   });
   setVideoStream(localVideo, localStream);
 }
+
+function disconnect() {
+  connectButton.disabled = false;
+  disconnectButton.disabled = true;
+  callButton.disabled = true;
+  unsetVideoStream(localVideo);
+  unsetVideoStream(remoteVideo);
+  remoteStream = new MediaStream();
+  setVideoStream(remoteVideo, remoteStream);
+}
