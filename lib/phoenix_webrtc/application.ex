@@ -8,7 +8,7 @@ defmodule PhoenixWebrtc.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      PhoenixWebrtc.Repo,
+      # PhoenixWebrtc.Repo,
       # Start the Telemetry supervisor
       PhoenixWebrtcWeb.Telemetry,
       # Start the PubSub system
