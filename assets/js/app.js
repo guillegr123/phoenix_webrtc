@@ -131,3 +131,23 @@ function handleOnIceCandidate(event) {
 
   pushPeerMessage('ice-candidate', event.candidate);
 }
+
+channel.on('peer-message', payload => {
+  const message = JSON.parse(payload.body);
+  switch (message.type) {
+    case 'video-offer':
+      log('offered: ', message.content);
+      break;
+    case 'video-answer':
+      log('answered: ', message.content);
+      break;
+    case 'ice-candidate':
+      log('candidate: ', message.content);
+      break;
+    case 'disconnect':
+      disconnect();
+      break;
+    default:
+      reportError('Unhandled message type')(message.type);
+  }
+});
