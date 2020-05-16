@@ -106,10 +106,14 @@ function createPeerConnection(stream) {
 async function call() {
   let offer = await peerConnection.createOffer();
   peerConnection.setLocalDescription(offer);
+  pushPeerMessage('video-offer', offer);
+}
+
+function pushPeerMessage(type, content) {
   channel.push('peer-message', {
     body: JSON.stringify({
-      'type': 'video-offer',
-      'content': offer
+      type,
+      content
     }),
   });
 }
