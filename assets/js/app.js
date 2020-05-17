@@ -144,6 +144,10 @@ channel.on('peer-message', payload => {
       break;
     case 'ice-candidate':
       log('candidate: ', message.content);
+      let candidate = new RTCIceCandidate(message.content);
+      peerConnection
+        .addIceCandidate(candidate)
+        .catch(reportError);
       break;
     case 'disconnect':
       disconnect();
