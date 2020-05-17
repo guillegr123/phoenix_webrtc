@@ -36,3 +36,7 @@ Finally push the code to Heroku for release:
 ```sh
 $ git push heroku master
 ```
+
+For more details, visit:
+* https://alchemist.camp/episodes/deploy-phoenix-heroku
+* https://www.icicletech.com/blog/elixir-phoenix-deployment-on-heroku
