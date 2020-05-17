@@ -137,6 +137,7 @@ channel.on('peer-message', payload => {
   switch (message.type) {
     case 'video-offer':
       log('offered: ', message.content);
+      answerCall(message.content);
       break;
     case 'video-answer':
       log('answered: ', message.content);
@@ -151,3 +152,14 @@ channel.on('peer-message', payload => {
       reportError('Unhandled message type')(message.type);
   }
 });
+
+async function answerCall(offer) {
+  let remoteDescription = new RTCSessionDescription(offer);
+  peerConnection.setRemoteDescription(remoteDescription);
+  let answer = await peerConnection.createAnswer();
+  peerConnection
+    .setLocalDescription(answer)
+    .then(() =>
+      pushPeerMessage('video-answer', peerConnection.localDescription)
+    );
+}
