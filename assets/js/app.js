@@ -79,13 +79,16 @@ function disconnect() {
   callButton.disabled = true;
   unsetVideoStream(localVideo);
   unsetVideoStream(remoteVideo);
-  remoteStream = new MediaStream();
-  setVideoStream(remoteVideo, remoteStream);
+  peerConnection.close();
+  peerConnection = null;
 
   // In an actual application, you might want to clear the event handlers on the connection prior
   // to closing it to avoid errors while it's being shut down.
   peerConnection.close();
   peerConnection = null;
+  remoteStream = new MediaStream();
+  setVideoStream(remoteVideo, remoteStream);
+  pushPeerMessage('disconnect', {});
 }
 
 function createPeerConnection(stream) {
