@@ -16,3 +16,23 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+## Deploy to Heroku
+
+Using the Heroku CLI, create the Phoenix application on Heroku which will run our project:
+
+```sh
+$ heroku create --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+```
+
+Then add the buildpack to support static assets:
+
+```sh
+$ heroku buildpacks:add https://github.com/gjaldon/heroku-buildpack-phoenix-static.git
+```
+
+Finally push the code to Heroku for release:
+
+```sh
+$ git push heroku master
+```
