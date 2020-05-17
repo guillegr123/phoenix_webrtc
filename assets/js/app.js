@@ -120,6 +120,7 @@ function pushPeerMessage(type, content) {
 
 function handleOnTrack(event) {
   log(event);
+  remoteStream.addTrack(event.track);
 }
   
 function handleOnIceCandidate(event) {
@@ -141,6 +142,7 @@ channel.on('peer-message', payload => {
       break;
     case 'video-answer':
       log('answered: ', message.content);
+      receiveRemote(message.content);
       break;
     case 'ice-candidate':
       log('candidate: ', message.content);
@@ -157,9 +159,13 @@ channel.on('peer-message', payload => {
   }
 });
 
-async function answerCall(offer) {
+function receiveRemote(offer) {
   let remoteDescription = new RTCSessionDescription(offer);
   peerConnection.setRemoteDescription(remoteDescription);
+}
+
+async function answerCall(offer) {
+  receiveRemote(offer);
   let answer = await peerConnection.createAnswer();
   peerConnection
     .setLocalDescription(answer)
