@@ -21,7 +21,7 @@ const callButton = document.getElementById('call');
 const disconnectButton = document.getElementById('disconnect');
 
 const remoteVideo = document.getElementById('remote-stream');
-const localVideo = document.getElementById('remote-stream');
+const localVideo = document.getElementById('local-stream');
 const remoteStream = new MediaStream();
 
 setVideoStream(remoteVideo, remoteStream);
@@ -129,7 +129,7 @@ function handleOnTrack(event) {
 function handleOnIceCandidate(event) {
   log(event);
 
-  if (!!event.candidate) {
+  if (!event.candidate) {
     return;
   }
 
